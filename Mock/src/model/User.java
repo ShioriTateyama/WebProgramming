@@ -12,7 +12,7 @@ public class User {
 	private String createDate;
 	private String updateDate;
 
-	// ログインセッションを保存するためのコンストラクタ
+	//javabeans
 	public User(String loginId, String name) {
 		this.loginId = loginId;
 		this.name = name;

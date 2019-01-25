@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.UserDao;
 import model.User;
@@ -31,10 +32,13 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// ログインセッションがある場合、ユーザ一覧画面にリダイレクトさせる
+		if(request.getSession().getAttribute("loginUser")!=null) {
+			response.sendRedirect("/WEB-INF/index.jsp/");
 
-
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/");
+		}
+		//forward
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/index.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -47,16 +51,30 @@ public class LoginServlet extends HttpServlet {
 
 		//リクエストパラメータを取得
 		request.setCharacterEncoding("UTF-8");
-		String loginId =request.getParameter(loginId);
-		String password =request.getParameter(password);
 
-		//リクエストパラメータをチェック
-		String errorMsg = "";
+		// リクエストパラメータの入力項目を取得
+		String loginId =request.getParameter("loginId");
+		String password =request.getParameter("password");
 
+
+		// リクエストパラメータの入力項目を引数に渡して、Daoのメソッドを実行
 		UserDao userDao = new UserDao();
 		User user = userDao.findByLoginInfo(loginId, password);
 
-		if(loginId)
+		if(user ==null) {
+			//インスタンスをリクエストスコープに保存
+			request.setAttribute("errorMsg", "ログインに失敗しました。" );
+
+			// ログインjspにフォワード
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
+
+		// セッションスコープを取得
+		HttpSession session = request.getSession();
+		//セッションスコープにインスタンスを保存
+		session.setAttribute("loginUser", user);
 
 	}
 

@@ -13,7 +13,7 @@ import model.User;
 
 
 public class UserDao {
-
+	
     /**
      * ログインIDとパスワードに紐づくユーザ情報を返す
      * @param loginId

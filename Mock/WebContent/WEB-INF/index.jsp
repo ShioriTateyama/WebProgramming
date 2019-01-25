@@ -5,20 +5,24 @@
 <head>
 <meta charset="UTF-8">
 <title>ログイン画面</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<h1 class=p>ログイン画面</h1>
 		<form action="/UserManegment/LoginServlet" method="post">
 		<div class="p">
 			ログインID：<input type="text" id="loginId"><br>
-			パスワード：<input type="text" id="password"><br>
+			パスワード：<input type="password" id="password"><br>
 
 
 			<input type="submit" value="ログイン">
 
-		</div>
 
+	<% if(request.getSession().getAttribute("loginUser")!=null) { %>
+		<span style="color: #F00;">ログインに失敗しました</span>
 
+	<%} %>
+	</div>
 	</form>
 </body>
 </html>
