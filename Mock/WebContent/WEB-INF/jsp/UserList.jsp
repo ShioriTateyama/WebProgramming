@@ -1,0 +1,56 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ユーザー一覧</title>
+</head>
+<body>
+	<h1 class=p>ユーザー一覧</h1>
+
+	<div class="p">
+			ログインID：<input type="text" id="ログインID"><br>
+			ユーザ名：<input type="text" id="ユーザ名"><br>
+			生年月日：<input type="date">  〜  <input type="date"><br>
+			<input type="submit" value="検索"><br>
+			<hr size="ピクセル値">
+			<table style="margin:auto;" border="1">
+				<tr >
+					<th>ログインID</th>
+					<th>ユーザ名</th>
+					<th>生年月日</th>
+					<th>  </th>
+				</tr>
+				<tr >
+					<td>id0001</td>
+					<td>田中太郎</td>
+					<td>1989年04月26日</td>
+					<td><input type="button" value="詳細">
+					<input type="button" value="更新">
+					<input type="button" value="削除"></td>
+				</tr>
+				<tr >
+					<td>id0002</td>
+					<td>佐藤二郎</td>
+					<td>2001年11月12日</td>
+					<td><input type="button" value="詳細">
+					<input type="button" value="更新">
+					<input type="button" value="削除"></td>
+				</tr >
+				<tr >
+					<td>id0003</td>
+					<td>佐川真司</td>
+					<td>1980年01月29日</td>
+					<td><input type="button" value="詳細">
+					<input type="button" value="更新">
+					<input type="button" value="削除"></td>
+				</tr>
+
+
+			</table>
+
+			</div>
+	</body>
+
+</html>

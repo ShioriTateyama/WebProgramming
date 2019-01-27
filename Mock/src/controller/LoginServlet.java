@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
 			response.sendRedirect("/WEB-INF/index.jsp/");
 
 		}
-		//forward
+		//ログインjspにforward
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/index.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -75,6 +75,9 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		//セッションスコープにインスタンスを保存
 		session.setAttribute("loginUser", user);
+
+		// ユーザ一覧のサーブレットにリダイレクト
+		response.sendRedirect("UserListServlet");
 
 	}
 
