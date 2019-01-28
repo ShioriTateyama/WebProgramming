@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class DBManager {
 	final private static String URL = "jdbc:mysql://localhost/";
-    final private static String DB_NAME = "users";
+    final private static String DB_NAME = "rezodb";
     final private static String USER = "root";
     final private static String PASS = "password";
 

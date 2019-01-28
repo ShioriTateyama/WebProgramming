@@ -34,11 +34,11 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// ログインセッションがある場合、ユーザ一覧画面にリダイレクトさせる
 		if(request.getSession().getAttribute("loginUser")!=null) {
-			response.sendRedirect("/WEB-INF/index.jsp/");
+			response.sendRedirect("/WEB-INF/UserList.jsp/");
 
 		}
 		//ログインjspにforward
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/index.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		dispatcher.forward(request, response);
 	}
 
