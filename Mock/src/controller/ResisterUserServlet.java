@@ -9,8 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.UserDao;
-import model.User;
+import model.ResisterUserLogic;
 
 
 
@@ -51,16 +50,17 @@ public class ResisterUserServlet extends HttpServlet {
 		String createDate=request.getParameter("creatDate");
 		String updateDate=request.getParameter("updateDate");
 
-		// リクエストパラメータの入力項目を引数に渡して、Daoのメソッドを実行
-				UserDao userDao = new UserDao();
-				User user = userDao.findByLoginInfo(loginId, password);
+		// リクエストパラメータの入力項目を引数に渡して、resisterUserLogicのメソッドを実行
+				ResisterUserLogic resisterUser = new ResisterUserLogic();
+				
+				
 
-				if(user ==null) {
+				if(resisterUser) {
 					//インスタンスをリクエストスコープに保存
-					request.setAttribute("errorMsg", "ログインに失敗しました。" );
+					request.setAttribute("errorMsg", "入力された内容は正しくありません" );
 
-					// ログインjspにフォワード
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
+					// resisterjspにフォワード
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/ResisterUser.jsp");
 					dispatcher.forward(request, response);
 					return;
 				}

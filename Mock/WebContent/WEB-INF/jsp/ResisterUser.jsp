@@ -24,6 +24,10 @@
 			パスワード（確認）：<input type="text" name="password2"><br>
 			ユーザ名：<input type="text" name="name"><br>
 			生年月日：<input type="date" name="birthDate"> <br>
+			<input type="hidden" value="<%=System.currentTimeMills() %>" name="createDate"></input>
+			<input type="hidden" value="<%=System.currentTimeMills() %>" name="upDateDate"></input>
+			
+			
 
 			<button type="submit" value="登録">登録</button>
 
