@@ -13,7 +13,7 @@
 	<header class=header>
 
 				<h4 class=r>${loginUser.name}さん
-				<a href="LogoutServlet">ログアウト</a>
+				<a href="src/controller/LogoutServlet.java">ログアウト</a>
 				</h4>
 			</header>
 
@@ -21,7 +21,7 @@
 
 
 		<div class="text-right">
-        <a href="ResisterUserServlet">新規登録</a>
+        <a href="/src/controller/ResisterUserServlet.java">新規登録</a>
       	</div>
 	<div class="p">
 			ログインID：<input type="text" name="loginId"><br>

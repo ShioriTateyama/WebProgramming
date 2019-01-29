@@ -11,7 +11,7 @@
 		<header class=header>
 
 			<h4 class=r>${loginUser.name}さん
-			<a href="LogoutServlet">ログアウト</a>
+			<a href="/src/controller/LogoutServlet.java">ログアウト</a>
 			</h4>
 		</header>
 
@@ -28,7 +28,7 @@
 
 
 
-		<p><a href="UserListServlet">戻る</a></p>
+		<p><a href="/src/controller/UserListServlet">戻る</a></p>
 
 </body>
 </html>

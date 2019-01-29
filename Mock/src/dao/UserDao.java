@@ -2,7 +2,6 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -154,27 +153,121 @@ public class UserDao {
             }
         }
     }
-    public User resisterUser(String loginId, String name,  String birthDate,String password,Date cteateDate,Date updateDate) {
+    public List<User> resisterUser(String loginId, String name,  String birthDate,String password, String password2, String cteateDate,String updateDate) {
     Connection conn=null;
 	try {
 		//connectDB
-		conn=DriverManager.getConnection("jdbc:mysql://localhost/", "root", "password");
+		conn=DBManager.getConnection();
+
 
 		//insert文
-		String sql ="INSERT INTO user(loginId,name,birth_date,password,creat_date,update_date)VALUES('loginId','name','birthDate','password','createDate','updateDate')";
+		String sql ="INSERT INTO user(loginId,name,birth_date,password,creat_date,update_date)VALUES('?','?','?','?','?','now()','now()')";
 		//インサート実行
-		Statement stmt=conn.createStatement();
-		int result=stmt.executeUpdate(sql);
+		 // SELECTを実行し、結果表を取得
+        PreparedStatement pStmt = conn.prepareStatement(sql);
+        pStmt.setString(1, loginId);
+        pStmt.setString(2, password);
+        pStmt.setString(3, birthDate);
+        pStmt.setString(4, password);
+        pStmt.setString(5, password2);
+
+		int result=pStmt.executeUpdate(sql);
 		//追加された行数を出力
 		System.out.println(result);
-		stmt.close();
-
-	}catch(SQLException e)	{
-		e.printStackTrace();
-	}finally {
-	}
+		pStmt.close();
+	 } catch (SQLException e) {
+         e.printStackTrace();
+         return null;
+     } finally {
+         // データベース切断
+         if (conn != null) {
+             try {
+                 conn.close();
+             } catch (SQLException e) {
+                 e.printStackTrace();
+                 return null;
+             }
+         }
+     }
 	return null;
-	}
+    }
+    public User updateUser(String loginId, String password, String password2,String name,  String birthDate) {
+        Connection conn=null;
+    	try {
+    		//connectDB
+    		conn=DBManager.getConnection();
 
-}
+    		//update文
+    		String sql ="UPDTAE user SET password='?' ,name='?',birth_date ='?' WHERE id='?'";
+    		//インサート実行
+    		 // SELECTを実行し、結果表を取得
+            PreparedStatement pStmt = conn.prepareStatement(sql);
 
+            pStmt.setString(1, password);
+            pStmt.setString(2, name);
+            pStmt.setString(3, birthDate);
+            pStmt.setString(4, loginId);
+
+
+
+
+    		int result=pStmt.executeUpdate(sql);
+    		//追加された行数を出力
+    		System.out.println(result);
+
+
+    	}catch(SQLException e)	{
+    		e.printStackTrace();
+    	}finally {
+    		// データベース切断
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+    	}
+		return null;
+    }
+		public List<User> delite() {
+	        Connection conn = null;
+	        List<User> userList = new ArrayList<User>();
+
+	        try {
+	            // データベースへ接続
+	            conn = DBManager.getConnection();
+
+	            // delete文を準備
+
+	            String sql = "DELERTE * FROM user WHERE id ='?' ";
+
+	             // SELECTを実行し、結果表を取得
+	            PreparedStatement pStmt = conn.prepareStatement(sql);
+	            pStmt.setString(1, idlogin);
+	            int result = pStmt.executeUpdate(sql);
+	          //追加された行数を出力
+	    		System.out.println(result);
+
+
+
+
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            return null;
+	        } finally {
+	            // データベース切断
+	            if (conn != null) {
+	                try {
+	                    conn.close();
+	                } catch (SQLException e) {
+	                    e.printStackTrace();
+	                    return null;
+	                }
+	            }
+	        }
+	        return userList;
+	    }
+    }

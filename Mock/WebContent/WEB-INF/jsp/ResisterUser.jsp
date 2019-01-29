@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +13,7 @@
 		<header class=header>
 
 			<h4 class=r>ユーザ名 さん
-			<a href="index.html">ログアウト</a>
+			<a href="index.jsp">ログアウト</a>
 			</h4>
 		</header>
 
@@ -24,10 +25,8 @@
 			パスワード（確認）：<input type="text" name="password2"><br>
 			ユーザ名：<input type="text" name="name"><br>
 			生年月日：<input type="date" name="birthDate"> <br>
-			<input type="hidden" value="<%=System.currentTimeMills() %>" name="createDate"></input>
-			<input type="hidden" value="<%=System.currentTimeMills() %>" name="upDateDate"></input>
-			
-			
+
+
 
 			<button type="submit" value="登録">登録</button>
 

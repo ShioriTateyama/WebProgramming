@@ -38,7 +38,7 @@ public class UserListServlet extends HttpServlet {
 		if(session== null ) {
 			session =request.getSession(true);
 			response.sendRedirect("/WEB-INF/index.jsp/");
-
+			return;
 		}
 		// ユーザ一覧情報を取得
 		UserDao userDao = new UserDao();
@@ -69,6 +69,8 @@ public class UserListServlet extends HttpServlet {
 		UserDao userDao = new UserDao();
 		userDao.findByUserSerch("longinId","name","birthDateStart","birthDateStart");
 
+		// resisteruserのサーブレットにリダイレクト
+				response.sendRedirect("ResisterUserServlet");
 
 	}
 
