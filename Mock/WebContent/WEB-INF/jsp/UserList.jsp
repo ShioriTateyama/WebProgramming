@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="css/style.css">
 <title>ユーザー一覧</title>
 
 </head>
@@ -13,15 +13,16 @@
 	<header class=header>
 
 				<h4 class=r>${loginUser.name}さん
-				<a href="src/controller/LogoutServlet.java">ログアウト</a>
+				<a  href="LogoutServlet" class=r>ログアウト</a>
 				</h4>
 			</header>
 
 	<h1 class=p>ユーザー一覧</h1>
-
+<form action="UserListServlet" method="post">
 
 		<div class="text-right">
-        <a href="/src/controller/ResisterUserServlet.java">新規登録</a>
+        <a href="ResisterUser">新規登録</a>
+
       	</div>
 	<div class="p">
 			ログインID：<input type="text" name="loginId"><br>
@@ -30,12 +31,14 @@
 			<button type="submit" value="検索">検索</button><br>
 			<hr size="ピクセル値">
 			<table style="margin:auto;" border="1">
+				 <thead>
 				<tr >
 					<th>ログインID</th>
 					<th>ユーザ名</th>
 					<th>生年月日</th>
 					<th>  </th>
 				</tr>
+				 </thead>
 
 					<tbody>
 
@@ -46,11 +49,11 @@
                      <td>${user.birthDate}</td>
                      <!-- TODO 未実装；ログインボタンの表示制御を行う -->
                      <td>
-                       <a href="UserDetailServlet?id=${user.id}">詳細</a>
-                       <c:if test="${user.id==1||user.id==loginUser.id}">
-                       <a href="UserUpdateServlet?id=${user.id}">更新</a></c:if>
-                       <c:if test="${user.id==1}">
-                       <a href ="UserDeleteServlet?id=${user.id}">削除</a>
+                       <a href="ReferenceServlet?id=${user.id}"><input type="hidden" name="id">詳細</a>
+                       <c:if test="${loginUser.loginId=='admin'||user.loginId==loginUser.loginId}">
+                       <a href="UpdateUserServlet?id=${user.id}">更新</a></c:if>
+                       <c:if test="${loginUser.loginId=='admin'}">
+                       <a href ="Delete?id=${user.id}">削除</a>
                      </c:if></td>
                    </tr>
                  </c:forEach>
@@ -58,6 +61,7 @@
 			</table>
 
 			</div>
+			</form>
 	</body>
 
 </html>

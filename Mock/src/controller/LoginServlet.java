@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
 		// ログインセッションがある場合、ユーザ一覧画面にリダイレクトさせる
 		if(request.getSession().getAttribute("loginUser")!=null) {
 			response.sendRedirect("/WEB-INF/UserList.jsp/");
-
+			return;
 		}
 		//ログインjspにforward
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");

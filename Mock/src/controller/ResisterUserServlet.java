@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.UserDao;
-import model.User;
 
 
 @WebServlet("/ResisterUser")
@@ -27,7 +25,7 @@ public class ResisterUserServlet extends HttpServlet {
 		HttpSession session =request.getSession(false);
 		if(session== null ) {
 			session =request.getSession(true);
-			response.sendRedirect("/WEB-INF/index.jsp/");
+			response.sendRedirect("/WEB-INF/jsp/index.jsp/");
 			return;
 		}
 				/*if(request.getSession().getAttribute("loginUser")==null) {
@@ -36,7 +34,7 @@ public class ResisterUserServlet extends HttpServlet {
 
 				}*/
 				//Resister.jspにforward
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/Resister.jsp");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/ResisterUser.jsp");
 				dispatcher.forward(request, response);
 
 
@@ -61,16 +59,41 @@ public class ResisterUserServlet extends HttpServlet {
 
 		// リクエストパラメータの入力項目を引数に渡して、resisterUserのメソッドを実行
 		UserDao userDao = new UserDao();
+		userDao.findSameloginId(loginId);
 
-		List<User> resisterUser =userDao.resisterUser(loginId,password,password2,name,birthDate,createDate,updateDate);
 
 
-			if(loginId.equals("logoinID")||password!=password2||resisterUser==null) {
-					request.setAttribute("errorMsg", "入力された内容は正しくありません" );
+		if(!(password.equals(password2))){
 
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/Resister.jsp");
-					dispatcher.forward(request, response);
-					return;
-	}
+			request.setAttribute("error", "入力された情報は正しくありません。");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/ResisterUser.jsp");
+			dispatcher.forward(request, response);
+			return;
+
+		}if(loginId==null||password==null||password2==null||name==null||birthDate==null) {
+
+			request.setAttribute("error", "入力された情報は正しくありません。");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/ResisterUser.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}if(userDao.findSameloginId(loginId)) {
+			request.setAttribute("error", "入力された情報は正しくありません。");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/ResisterUser.jsp");
+			dispatcher.forward(request, response);
+			return;
+
+
+		}
+
+
+
+
+			userDao.resisterUser(loginId,password,name,birthDate,createDate,updateDate);
+
+
+
+
+			// ユーザ一覧のservletにredirect
+			response.sendRedirect("UserListServlet");
 	}
 }

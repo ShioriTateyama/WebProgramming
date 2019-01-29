@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet implementation class Logout
  */
-@WebServlet("/Logout")
+@WebServlet("/LogoutServlet")
 public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -19,7 +19,15 @@ public class LogoutServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		HttpSession session =request.getSession();
+
+		// ログインセッションがない場合、ログイン画面にリダイレクトさせる
+		HttpSession session =request.getSession(false);
+		if(session== null ) {
+			session =request.getSession(true);
+			response.sendRedirect("/WEB-INF/jsp/index.jsp/");
+			return;
+		}
+
 		// ログイン時に保存したセッション内のユーザ情報を削除
 
 		session.removeAttribute("loginUser");

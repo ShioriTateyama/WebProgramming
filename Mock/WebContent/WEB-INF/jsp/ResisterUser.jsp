@@ -6,19 +6,24 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="css/style.css">
 	<title>ユーザ新規登録</title>
 </head>
 <body>
 		<header class=header>
 
 			<h4 class=r>ユーザ名 さん
-			<a href="index.jsp">ログアウト</a>
+			<a href="LogoutServlet" class=r>ログアウト</a>
 			</h4>
 		</header>
 
 		<h1 class=p>ユーザ新規登録</h1>
-
+		<c:if test="${error}" >
+	    <div class="p"><span style="color: #F00;">
+		  ${error}
+		</span></div>
+	</c:if>
+			<form action="ResisterUser" method="post">
 			<div class="p">
 			ログインID：<input type="text" name="loginId"><br>
 			パスワード：<input type="text" name="password"><br>
@@ -32,13 +37,9 @@
 
 		</div>
 
-		<c:if test="${errorMsg}" >
-	    <div class="p"><span style="color: #F00;">
-		  ${errorMsg}
-		</span></div>
-	</c:if>
 
-		<p><a href="index.html">戻る</a></p>
 
+		<p><a href="UserListServlet">戻る</a></p>
+</form>
 </body>
 </html>

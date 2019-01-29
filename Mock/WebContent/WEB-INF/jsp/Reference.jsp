@@ -4,18 +4,19 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="css/style.css">
 	<title>ユーザ情報参照</title>
 </head>
 <body>
 		<header class=header>
 
 			<h4 class=r>${loginUser.name}さん
-			<a href="/src/controller/LogoutServlet.java">ログアウト</a>
+			<a href="LogoutServlet" class=r>ログアウト</a>
 			</h4>
 		</header>
 
 		<h1 class=p>ユーザ情報参照</h1>
+		<form action="ReferenceServlet" method="post">
 
 			<div class="p">
 			<span class=a>ログインID</span><span class=a>${user.loginId}</span><br>
@@ -28,7 +29,7 @@
 
 
 
-		<p><a href="/src/controller/UserListServlet">戻る</a></p>
-
+		<p><a href="UserListServlet">戻る</a></p>
+</form>
 </body>
 </html>

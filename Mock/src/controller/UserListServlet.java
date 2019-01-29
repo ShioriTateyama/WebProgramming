@@ -63,11 +63,11 @@ public class UserListServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String loginId =request.getParameter("loginId");
 		String name=request.getParameter("name");
-		String birthDateS=request.getParameter("birthDateStart");
-		String birthDateE=request.getParameter("birthDateEnd");
+		String birthDateStart=request.getParameter("birthDateStart");
+		String birthDateEnd=request.getParameter("birthDateEnd");
 
 		UserDao userDao = new UserDao();
-		userDao.findByUserSerch("longinId","name","birthDateStart","birthDateStart");
+		userDao.findByUserSerch(loginId,name,birthDateStart,birthDateEnd);
 
 		// resisteruserのサーブレットにリダイレクト
 				response.sendRedirect("ResisterUserServlet");
