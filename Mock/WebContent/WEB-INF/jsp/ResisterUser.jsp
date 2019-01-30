@@ -12,7 +12,7 @@
 <body>
 		<header class=header>
 
-			<h4 class=r>ユーザ名 さん
+			<h4 class=r>${loginUser.name} さん
 			<a href="LogoutServlet" class=r>ログアウト</a>
 			</h4>
 		</header>
@@ -36,7 +36,11 @@
 			<button type="submit" value="登録">登録</button>
 
 		</div>
-
+		<c:if test="${error != null}" >
+	    <div class="p"><span style="color: #F00;">
+		  ${error}
+		</span></div>
+	</c:if>
 
 
 		<p><a href="UserListServlet">戻る</a></p>

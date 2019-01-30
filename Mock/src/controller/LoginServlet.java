@@ -63,7 +63,7 @@ public class LoginServlet extends HttpServlet {
 
 		if(user ==null) {
 			//インスタンスをリクエストスコープに保存
-			request.setAttribute("errorMsg", "ログインに失敗しました。" );
+			request.setAttribute("errorMsg", "ログインIDまたはパスワードが異なります" );
 
 			// ログインjspにフォワード
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");

@@ -10,7 +10,7 @@
 <body>
 		<header class=header>
 
-			<h4 class=r>${loginUser.name}さん さん
+			<h4 class=r>${loginUser.name} さん
 			<a href="LogoutServlet" class=r>ログアウト</a>
 			</h4>
 		</header>
@@ -18,12 +18,14 @@
 		<h1 class=p>ユーザ削除確認</h1>
 			<form action="Delete" method="post">
 			<div class="p">
-			ログインID : id0001<br>
+			ログインID : ${user.loginId}<br>
 			を本当に削除してもよろしいでしょうか。<br>
 
+
+			<input type="hidden" value="${user.id}" name="id">
 			<input type="submit" value="キャンセル" name="cancel">
-			<span class=k><input type="submit" value="OK" name="ok"></span>
-			<input type="hidden" value="${loginUser.loginId}" name="loginId">
+			<span class=k><input type="submit" value="OK" name="ok" ></span>
+
 
 
 

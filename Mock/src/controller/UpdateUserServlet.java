@@ -58,36 +58,46 @@ public class UpdateUserServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
+
 		//リクエストパラメータを取得
 				request.setCharacterEncoding("UTF-8");
 
 				// リクエストパラメータの入力項目を取得
-				String loginId=request.getParameter("loginId");
+				String id = request.getParameter("id");
 				String password =request.getParameter("password");
 				String password2 =request.getParameter("password2");
 				String name=request.getParameter("name");
 				String birthDate=request.getParameter("birthDate");
 
+				//リクエストパラメータの入力項目を引数に渡して、Daoのメソッドを実行
+				UserDao userDao = new UserDao();
+
+
 				//失敗の時
-				if(password!=password2||name==null||birthDate==null) {
+				if(!(password.equals(password2))) {
 
 					//インスタンスをリクエストスコープに保存
 					request.setAttribute("errorMsg", "入力された内容は正しくありません。" );
-					//UpdateUser.jspにforward
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/UpdateUser.jsp");
+					dispatcher.forward(request, response);
+
+					return ;
+
+
+				}if(name.isEmpty()||birthDate.isEmpty()) {
+					//インスタンスをリクエストスコープに保存
+					request.setAttribute("errorMsg", "入力された内容は正しくありません。" );
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/UpdateUser.jsp");
 					dispatcher.forward(request, response);
 					return ;
 
+				}if(password.isEmpty()&&password2.isEmpty()) {
+					userDao.updateUserWithoutPassword(id, name, birthDate);
+
+				}else {
+					userDao.updateUser(id, password,name,birthDate);
 
 				}
-				// リクエストパラメータの入力項目を引数に渡して、Daoのメソッドを実行
-				UserDao userDao = new UserDao();
-				userDao.updateUser(loginId, password,name,birthDate);
-
-				if(password==null&&password2==null) {
-					userDao.updateUserWithoutPassword(loginId,name,birthDate);
-				}
-
 
 				// ユーザ一覧のサーブレットにリダイレクト
 				response.sendRedirect("UserListServlet");

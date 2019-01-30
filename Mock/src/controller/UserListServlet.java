@@ -67,10 +67,15 @@ public class UserListServlet extends HttpServlet {
 		String birthDateEnd=request.getParameter("birthDateEnd");
 
 		UserDao userDao = new UserDao();
-		userDao.findByUserSerch(loginId,name,birthDateStart,birthDateEnd);
+		List<User> result =userDao.findByUserSerch(loginId,name,birthDateStart,birthDateEnd);
 
-		// resisteruserのサーブレットにリダイレクト
-				response.sendRedirect("ResisterUserServlet");
+		// リクエストスコープにresultをセット
+				request.setAttribute("userList", result);
+
+		// ユーザ一覧のjspにフォワード
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/UserList.jsp");
+				dispatcher.forward(request, response);
+
 
 	}
 

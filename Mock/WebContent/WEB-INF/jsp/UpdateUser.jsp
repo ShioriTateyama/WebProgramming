@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,7 @@
 
 			<div class="p">
 			<span class=a>ログインID</span><span class=a>${user.loginId} </span><br>
-			<input type="hidden" value="${loginUser.id}" name=loginId>
+			<input type="hidden" value="${user.id}" name=id>
 			<span class=a>パスワード</span><span class=a><input type="text" name="password"></span><br>
 			<span class=a>パスワード（確認）</span><span class=a><input type="text" name="password2"></span><br>
 			<span class=a>ユーザ名</span><span class=a><input value="${user.name}" type="text" name="name"></span><br>
@@ -29,6 +30,10 @@
 			<input type="submit" value="更新">
 
 			</div>
+			<c:if test="${errorMsg != null}" >
+	    			<div class="p"><span style="color: #F00;">${errorMsg}</span></div>
+				</c:if>
+
 
 		<p><a href="UserListServlet">戻る</a></p>
 </form>

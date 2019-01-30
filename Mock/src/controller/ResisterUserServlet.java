@@ -70,7 +70,7 @@ public class ResisterUserServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 			return;
 
-		}if(loginId==null||password==null||password2==null||name==null||birthDate==null) {
+		}if(loginId.isEmpty()||password.isEmpty()||password2.isEmpty()||name.isEmpty()||birthDate.isEmpty()) {
 
 			request.setAttribute("error", "入力された情報は正しくありません。");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/ResisterUser.jsp");

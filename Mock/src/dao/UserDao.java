@@ -117,32 +117,53 @@ public class UserDao {
         }
         return userList;
     }
-    public User findByUserSerch(String loginId, String name, String birthDateStart,String birthDateEnd) {
+    public List<User> findByUserSerch(String loginId, String name, String birthDateStart,String birthDateEnd) {
         Connection conn = null;
+        List<User> userList = new ArrayList<User>();
         try {
             // データベースへ接続
             conn = DBManager.getConnection();
 
-            // SELECT文を準備
-            String sql = "SELECT login_id,name,birth_date FROM user WHERE login_id = '?', name LIKE '% ? %', birth_date BETWEEN ? AND ?";
+            String sql = "SELECT * FROM user WHERE id not in('1') ";
 
-             // SELECTを実行し、結果表を取得
-            PreparedStatement pStmt = conn.prepareStatement(sql);
-            pStmt.setString(1, loginId);
-            pStmt.setString(2, name);
-            pStmt.setString(3,birthDateStart);
-            pStmt.setString(4, birthDateEnd);
-
-            ResultSet rs = pStmt.executeQuery();
-
-             // 主キーに紐づくレコードは1件のみなので、rs.next()は1回だけ行う
-            if (!rs.next()) {
-                return null;
+            if(!loginId.isEmpty()) {
+            	sql += " AND login_id = '" + loginId + "'";
+            }if(!name.isEmpty()) {
+            	sql +="AND name LIKE '%"+name+"%'  ";
+            }if(!birthDateStart.isEmpty()) {
+            	sql +="AND birth_date > ' "+birthDateStart+"' ";
+            }if(!birthDateEnd.isEmpty()) {
+            	sql +="AND birth_date < ' "+birthDateEnd+"' ";
             }
 
-            String loginIdData = rs.getString("login_id");
-            String nameData = rs.getString("name");
-            return new User(loginIdData, nameData);
+
+
+//            // SELECT文を準備
+//            String sql = "SELECT login_id,name,birth_date FROM user WHERE login_id = ? and name LIKE %?% and birth_date BETWEEN ? AND ?";
+//
+//             // SELECTを実行し、結果表を取得
+//            PreparedStatement pStmt = conn.prepareStatement(sql);
+//            pStmt.setString(1, loginId);
+//            pStmt.setString(2, name);
+//            pStmt.setString(3,birthDateStart);
+//            pStmt.setString(4, birthDateEnd);
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String loginIdData = rs.getString("login_Id");
+                String nameData = rs.getString("name");
+                Date birthDate = rs.getDate("birth_date");
+                String password = rs.getString("password");
+                String createDate = rs.getString("create_date");
+                String updateDate = rs.getString("up_date");
+                User user = new User(id, loginIdData, nameData, birthDate, password, createDate, updateDate);
+
+                userList.add(user);
+            }
+
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -158,6 +179,7 @@ public class UserDao {
                 }
             }
         }
+		return userList;
     }
 
     public User referUser(String id) {
@@ -289,14 +311,14 @@ public class UserDao {
     }
 
 
-    public void updateUser(String loginId, String password,String name,  String birthDate) {
+    public void updateUser(String id,String password,String name,  String birthDate) {
         Connection conn=null;
     	try {
     		//connectDB
     		conn=DBManager.getConnection();
 
     		//update文
-    		String sql ="UPDTAE user SET password='?' ,name='?',birth_date ='?' WHERE id='?'";
+    		String sql ="UPDATE user SET password=?,name=? , birth_date=? WHERE id=?;";
     		//インサート実行
     		 // SELECTを実行し、結果表を取得
             PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -304,7 +326,7 @@ public class UserDao {
             pStmt.setString(1, password);
             pStmt.setString(2, name);
             pStmt.setString(3, birthDate);
-            pStmt.setString(4, loginId);
+            pStmt.setString(4, id);
 
           //暗号化
             String sourse="password";
@@ -335,14 +357,14 @@ public class UserDao {
 
     }
 
-    public void updateUserWithoutPassword(String loginId, String name,  String birthDate) {
+    public void updateUserWithoutPassword(String id, String name,  String birthDate) {
         Connection conn=null;
     	try {
     		//connectDB
     		conn=DBManager.getConnection();
 
     		//update文
-    		String sql ="UPDTAE user SET ,name='?',birth_date ='?' WHERE id='?'";
+    		String sql ="UPDATE user SET name=?,birth_date =? WHERE id=?";
     		//インサート実行
     		 // SELECTを実行し、結果表を取得
             PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -350,7 +372,7 @@ public class UserDao {
 
             pStmt.setString(1, name);
             pStmt.setString(2, birthDate);
-            pStmt.setString(3, loginId);
+            pStmt.setString(3, id);
 
 
 
@@ -373,7 +395,7 @@ public class UserDao {
     	}
 
     }
-		public List<User> delite(String loginId) {
+		public List<User> delete(String id) {
 	        Connection conn = null;
 	        List<User> userList = new ArrayList<User>();
 
@@ -383,14 +405,13 @@ public class UserDao {
 
 	            // delete文を準備
 
-	            String sql = "DELERTE * FROM user WHERE id ='?' ";
+	            String sql = "DELETE FROM user WHERE id =? ";
 
 	             // SELECTを実行し、結果表を取得
 	            PreparedStatement pStmt = conn.prepareStatement(sql);
-	            pStmt.setString(1,loginId);
-	            int result = pStmt.executeUpdate();
-	          //追加された行数を出力
-	    		System.out.println(result);
+	            pStmt.setString(1,id);
+
+	            pStmt.executeUpdate();
 
 
 

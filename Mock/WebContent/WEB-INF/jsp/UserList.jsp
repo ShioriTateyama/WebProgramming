@@ -27,7 +27,7 @@
 	<div class="p">
 			ログインID：<input type="text" name="loginId"><br>
 			ユーザ名：<input type="text" name="name"><br>
-			生年月日：<input type="date" name="dateStart">  〜  <input type="date" name="dateEnd"><br>
+			生年月日：<input type="date" name="birthDateStart">  〜  <input type="date" name="birthDateEnd"><br>
 			<button type="submit" value="検索">検索</button><br>
 			<hr size="ピクセル値">
 			<table style="margin:auto;" border="1">
@@ -53,7 +53,7 @@
                        <c:if test="${loginUser.loginId=='admin'||user.loginId==loginUser.loginId}">
                        <a href="UpdateUserServlet?id=${user.id}">更新</a></c:if>
                        <c:if test="${loginUser.loginId=='admin'}">
-                       <a href ="Delete?id=${user.id}">削除</a>
+                       <a href ="Delete?id=${user.id}"><input type="hidden" value="${user.id}" name=id>削除</a>
                      </c:if></td>
                    </tr>
                  </c:forEach>

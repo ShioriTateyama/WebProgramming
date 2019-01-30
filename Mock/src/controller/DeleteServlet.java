@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.UserDao;
+import model.User;
 
 /**
  * Servlet implementation class Delete
@@ -38,6 +39,21 @@ public class DeleteServlet extends HttpServlet {
 					response.sendRedirect("/WEB-INF/index.jsp/");
 					return;
 				}
+				// URLからGETパラメータとしてIDを受け取る
+				String id = request.getParameter("id");
+
+				// 確認用：idをコンソールに出力
+				System.out.println(id);
+
+
+				// TODO  未実装：idを引数にして、idに紐づくユーザ情報を出力する
+				UserDao userDao = new UserDao();
+				User user = userDao.referUser(id);
+
+
+				// TODO  未実装：ユーザ情報をリクエストスコープにセットしてjspにフォワード
+				request.setAttribute("user", user);
+
 
 				//DeleteUser.jspにforward
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/DeleteUser.jsp");
@@ -48,10 +64,11 @@ public class DeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		String cancel =request.getParameter("cancel");
 
-		String loginId=request.getParameter("loginId");
+		request.setCharacterEncoding("UTF-8");
+
+		String cancel =request.getParameter("cancel");
+		String id=request.getParameter("id");
 		//cancelだった時＝nullではない
 		if(cancel!=null) {
 			// ユーザ一覧のjspにフォワード
@@ -61,10 +78,9 @@ public class DeleteServlet extends HttpServlet {
 		}else {
 
 			UserDao userDao = new UserDao();
-			userDao.delite(loginId);
-			// ユーザ一覧のjspにフォワード
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/UserList.jsp");
-			dispatcher.forward(request, response);
+			userDao.delete(id);
+			// ユーザ一覧のサーブレットにリダイレクト
+			response.sendRedirect("UserListServlet");
 		}
 	}
 
