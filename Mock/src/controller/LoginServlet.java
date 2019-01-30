@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// ログインセッションがある場合、ユーザ一覧画面にリダイレクトさせる
 		if(request.getSession().getAttribute("loginUser")!=null) {
-			response.sendRedirect("/WEB-INF/UserList.jsp/");
+			response.sendRedirect("UserListServlet");
 			return;
 		}
 		//ログインjspにforward

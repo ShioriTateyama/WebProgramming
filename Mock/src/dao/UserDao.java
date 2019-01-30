@@ -131,9 +131,9 @@ public class UserDao {
             }if(!name.isEmpty()) {
             	sql +="AND name LIKE '%"+name+"%'  ";
             }if(!birthDateStart.isEmpty()) {
-            	sql +="AND birth_date > ' "+birthDateStart+"' ";
+            	sql +="AND birth_date >= ' "+birthDateStart+"' ";
             }if(!birthDateEnd.isEmpty()) {
-            	sql +="AND birth_date < ' "+birthDateEnd+"' ";
+            	sql +="AND birth_date <= ' "+birthDateEnd+"' ";
             }
 
 

@@ -23,9 +23,9 @@ public class ResisterUserServlet extends HttpServlet {
 
 		// ログインセッションがない場合、ログイン画面にリダイレクトさせる
 		HttpSession session =request.getSession(false);
-		if(session== null ) {
+		if(session.getAttribute("loginUser")== null ) {
 			session =request.getSession(true);
-			response.sendRedirect("/WEB-INF/jsp/index.jsp/");
+			response.sendRedirect("LoginServlet");
 			return;
 		}
 				/*if(request.getSession().getAttribute("loginUser")==null) {

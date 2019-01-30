@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -34,11 +35,12 @@ public class DeleteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// ログインセッションがない場合、ログイン画面にリダイレクトさせる
 				HttpSession session =request.getSession(false);
-				if(session== null ) {
+				if(session.getAttribute("loginUser")== null ) {
 					session =request.getSession(true);
-					response.sendRedirect("/WEB-INF/index.jsp/");
+					response.sendRedirect("LoginServlet");
 					return;
 				}
+
 				// URLからGETパラメータとしてIDを受け取る
 				String id = request.getParameter("id");
 
@@ -71,9 +73,16 @@ public class DeleteServlet extends HttpServlet {
 		String id=request.getParameter("id");
 		//cancelだった時＝nullではない
 		if(cancel!=null) {
-			// ユーザ一覧のjspにフォワード
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/UserList.jsp");
-			dispatcher.forward(request, response);
+
+			// ユーザ一覧情報を取得
+			UserDao userDao = new UserDao();
+			List<User> userList = userDao.findAll();
+			// リクエストスコープにユーザ一覧情報をセット
+			request.setAttribute("userList", userList);
+
+			// ユーザ一覧のサーブレットにリダイレクト
+
+			response.sendRedirect("UserListServlet");
 			return;
 		}else {
 

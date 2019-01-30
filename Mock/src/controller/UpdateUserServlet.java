@@ -28,12 +28,12 @@ public class UpdateUserServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// ログインセッションがない場合、ログイン画面にリダイレクトさせる
-				HttpSession session =request.getSession(false);
-				if(session== null ) {
-					session =request.getSession(true);
-					response.sendRedirect("/WEB-INF/index.jsp/");
-					return;
-				}
+		HttpSession session =request.getSession(false);
+		if(session.getAttribute("loginUser")== null ) {
+			session =request.getSession(true);
+			response.sendRedirect("LoginServlet");
+			return;
+		}
 
 				String id = request.getParameter("id");
 
@@ -71,13 +71,19 @@ public class UpdateUserServlet extends HttpServlet {
 
 				//リクエストパラメータの入力項目を引数に渡して、Daoのメソッドを実行
 				UserDao userDao = new UserDao();
+				User user = userDao.referUser(id);
 
 
 				//失敗の時
 				if(!(password.equals(password2))) {
+					// idを引数にして、idに紐づくユーザ情報を出力する
+
+
+					request.setAttribute("user", user);
 
 					//インスタンスをリクエストスコープに保存
 					request.setAttribute("errorMsg", "入力された内容は正しくありません。" );
+
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/UpdateUser.jsp");
 					dispatcher.forward(request, response);
 
@@ -85,6 +91,13 @@ public class UpdateUserServlet extends HttpServlet {
 
 
 				}if(name.isEmpty()||birthDate.isEmpty()) {
+
+					// idを引数にして、idに紐づくユーザ情報を出力する
+
+
+					request.setAttribute("user", user);
+
+
 					//インスタンスをリクエストスコープに保存
 					request.setAttribute("errorMsg", "入力された内容は正しくありません。" );
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/UpdateUser.jsp");

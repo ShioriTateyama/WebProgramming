@@ -35,9 +35,9 @@ public class UserListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO 未実装：ログインセッションがない場合、ログイン画面にリダイレクトさせる
 		HttpSession session =request.getSession(false);
-		if(session== null ) {
+		if(session.getAttribute("loginUser")== null ) {
 			session =request.getSession(true);
-			response.sendRedirect("/WEB-INF/index.jsp/");
+			response.sendRedirect("LoginServlet");
 			return;
 		}
 		// ユーザ一覧情報を取得
